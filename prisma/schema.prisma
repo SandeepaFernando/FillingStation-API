@@ -11,12 +11,30 @@ datasource db {
 }
 
 model users {
-  id BigInt @id @default(autoincrement())
-  userName String @unique
-  nic String?
-  userRole Int @default(1)
-  cashInHand Decimal @default(0)
-  password String
-  createdAt DateTime @default(now())
-  lastUpdatedAt DateTime @default(now())
+  id             BigInt    @id @default(autoincrement())
+  userName       String    @unique
+  nic            String?
+  userRole       Int       @default(1)
+  cashInHand     Decimal   @default(0)
+  password       String
+  createdAt      DateTime  @default(now())
+  lastUpdatedAt  DateTime  @default(now())
+  createdVendors vendors[] @relation("createdUser")
+  updatedVendors vendors[] @relation("updatedUser")
+}
+
+model vendors {
+  id            BigInt   @id @default(autoincrement())
+  vendorName    String
+  address       String?
+  email         String?
+  phone         String?
+  balance Decimal @default(0)
+  createdUserId BigInt
+  updatedUserId BigInt
+  createdBy     users    @relation("createdUser", fields: [createdUserId], references: [id])
+  updatedBy     users    @relation("updatedUser", fields: [updatedUserId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+  usersId       BigInt
 }
