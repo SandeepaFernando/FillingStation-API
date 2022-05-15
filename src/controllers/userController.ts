@@ -35,7 +35,7 @@ export const createUser = async (
         password,
       },
     })
-    .catch((e) => {
+    .catch((e: any) => {
       throw e;
     })
     .finally(async () => {
@@ -71,7 +71,7 @@ export const deleteUserById = async (id: number) => {
         id,
       },
     })
-    .catch((e) => {
+    .catch((e: any) => {
       throw e;
     })
     .finally(async () => {
@@ -135,7 +135,7 @@ export const updateUser = async (
         lastUpdatedAt: new Date().toISOString(),
       },
     })
-    .catch((e) => {
+    .catch((e: any) => {
       throw e;
     })
     .finally(async () => {
@@ -163,7 +163,7 @@ export const getUserById = async (id: number) => {
         id,
       },
     })
-    .catch((e) => {
+    .catch((e: any) => {
       throw e;
     })
     .finally(async () => {
@@ -200,7 +200,7 @@ export const getUserByUserName = async (userName: string) => {
         userName,
       },
     })
-    .catch((e) => {
+    .catch((e: any) => {
       throw e;
     })
     .finally(async () => {
