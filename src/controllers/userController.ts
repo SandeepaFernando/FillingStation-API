@@ -65,6 +65,11 @@ export const deleteUserById = async (id: number) => {
     };
   }
 
+  const checkUser = await getUserById(id);
+  if (!checkUser.user) {
+    return checkUser;
+  }
+
   const user = await prisma.users
     .delete({
       where: {
@@ -117,9 +122,9 @@ export const updateUser = async (
     return { status: 500, message: "password is invalid", user: null };
   }
 
-  const checkUser = await getUserByUserName(userName);
-  if (checkUser) {
-    return { status: 403, message: "username exists", user: null };
+  const checkUser = await getUserById(id);
+  if (!checkUser.user) {
+    return checkUser;
   }
 
   const user = await prisma.users
