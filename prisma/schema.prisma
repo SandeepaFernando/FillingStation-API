@@ -11,16 +11,17 @@ datasource db {
 }
 
 model users {
-  id             BigInt    @id @default(autoincrement())
-  userName       String    @unique
+  id             BigInt     @id @default(autoincrement())
+  userName       String     @unique
   nic            String?
-  userRole       Int       @default(1)
-  cashInHand     Decimal   @default(0)
+  userRole       Int        @default(1)
+  cashInHand     Decimal    @default(0)
   password       String
-  createdAt      DateTime  @default(now())
-  lastUpdatedAt  DateTime  @default(now())
-  createdVendors vendors[] @relation("createdUser")
-  updatedVendors vendors[] @relation("updatedUser")
+  createdAt      DateTime   @default(now())
+  lastUpdatedAt  DateTime   @default(now())
+  createdVendors vendors[]  @relation("createdUser")
+  updatedVendors vendors[]  @relation("updatedUser")
+  branches       branches[]
 }
 
 model vendors {
@@ -29,11 +30,22 @@ model vendors {
   address       String?
   email         String?
   phone         String?
-  balance Decimal @default(0)
+  balance       Decimal  @default(0)
   createdUserId BigInt
   updatedUserId BigInt
   createdBy     users    @relation("createdUser", fields: [createdUserId], references: [id])
   updatedBy     users    @relation("updatedUser", fields: [updatedUserId], references: [id])
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
+}
+
+model branches {
+  id         BigInt  @id @default(autoincrement())
+  branchName String
+  phone      String?
+  address    String?
+  user       users   @relation(fields: [usersId], references: [id])
+  usersId    BigInt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
