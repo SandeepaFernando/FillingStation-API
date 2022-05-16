@@ -6,6 +6,7 @@ const port = 3000;
 
 const userRoutes = require("./routes/userRoutes");
 const vendorRoutes = require("./routes/vendorRoutes");
+const branchRoutes = require("./routes/branchRoutes");
 
 app.use(cors());
 app.use(express.json());
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/user", userRoutes);
 app.use("/api/vendor", vendorRoutes);
+app.use("/api/branch", branchRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
