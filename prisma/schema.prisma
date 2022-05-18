@@ -11,17 +11,19 @@ datasource db {
 }
 
 model users {
-  id             BigInt     @id @default(autoincrement())
-  userName       String     @unique @db.VarChar(255)
-  nic            String?    @db.VarChar(255)
-  userRole       Int        @default(1)
-  cashInHand     Decimal    @default(0)
-  password       String
-  createdAt      DateTime   @default(now())
-  lastUpdatedAt  DateTime   @default(now())
-  createdVendors vendors[]  @relation("createdUser")
-  updatedVendors vendors[]  @relation("updatedUser")
-  branches       branches[]
+  id               BigInt      @id @default(autoincrement())
+  userName         String      @unique @db.VarChar(255)
+  nic              String?     @db.VarChar(255)
+  userRole         Int         @default(1)
+  cashInHand       Decimal     @default(0)
+  password         String
+  createdAt        DateTime    @default(now())
+  lastUpdatedAt    DateTime    @default(now())
+  createdVendors   vendors[]   @relation("createdUser")
+  updatedVendors   vendors[]   @relation("updatedUser")
+  createdCustomers customers[] @relation("customerCreatedUser")
+  updatedCustomers customers[] @relation("customerUpdatedUser")
+  branches         branches[]
 }
 
 model vendors {
@@ -59,4 +61,21 @@ model pumpOperators {
   balance   Decimal  @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+}
+
+model customers {
+  id             BigInt   @id @default(autoincrement())
+  customerName   String   @db.VarChar(255)
+  address        String?
+  phone          String?  @db.VarChar(255)
+  email          String?  @db.VarChar(255)
+  nic            String?  @db.VarChar(255)
+  customerNature Int?
+  balance        Decimal  @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now())
+  createdUserId  BigInt
+  updatedUserId  BigInt
+  createdBy      users    @relation("customerCreatedUser", fields: [createdUserId], references: [id])
+  updatedBy      users    @relation("customerUpdatedUser", fields: [updatedUserId], references: [id])
 }
