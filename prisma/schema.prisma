@@ -71,7 +71,7 @@ model customers {
   email          String?  @db.VarChar(255)
   nic            String?  @db.VarChar(255)
   customerNature Int?
-  balance        Decimal  @default(0)
+  balance        Decimal?  @default(0)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @default(now())
   createdUserId  BigInt
