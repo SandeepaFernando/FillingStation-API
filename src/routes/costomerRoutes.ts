@@ -16,7 +16,7 @@ route.post("/create", async (req, res, next) => {
   const nic: string = req.body.nic;
   const customerNature: number = Number(req.body.customerNature);
   //TODO: add user ID from jwt
-  const userId: number = 3;
+  const userId: number = 1;
   const request = await createCustomer(
     customerName,
     userId,
@@ -40,7 +40,7 @@ route.post("/update", async (req, res, next) => {
   const balance: number = Number(req.body.balance);
   const customerNature: number = Number(req.body.customerNature);
   //TODO: add user ID from jwt
-  const userId: number = 3;
+  const userId: number = 1;
 
   const request = await updateCustomer(
     id,
@@ -71,4 +71,4 @@ route.post("/delete", async (req, res, next) => {
   return res.status(request.status).json(request);
 });
 
-module.exports = route
+module.exports = route;
