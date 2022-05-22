@@ -102,11 +102,22 @@ model items {
 }
 
 model tanks {
-  id        BigInt   @id @default(autoincrement())
-  remainQty Decimal  @default(0)
-  item      items    @relation(fields: [itemsId], references: [id])
-  createdBy users    @relation(fields: [usersId], references: [id])
-  updatedAt DateTime @default(now())
+  id        BigInt    @id @default(autoincrement())
+  remainQty Decimal   @default(0)
+  item      items     @relation(fields: [itemsId], references: [id])
+  createdBy users     @relation(fields: [usersId], references: [id])
+  updatedAt DateTime  @default(now())
   itemsId   BigInt
   usersId   BigInt
+  refills   refills[]
+}
+
+model refills {
+  id           BigInt   @id @default(autoincrement())
+  refillAmount Decimal  @default(0)
+  date         DateTime @default(now())
+  cost         Decimal  @default(0)
+  tank         tanks    @relation(fields: [tanksId], references: [id])
+  tanksId      BigInt
+  updatedAt    DateTime @default(now())
 }
