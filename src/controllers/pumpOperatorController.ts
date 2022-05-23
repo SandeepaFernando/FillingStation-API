@@ -53,13 +53,17 @@ export const updateOperator = async (
     return { status: 500, message: "id invalid", pumpOperator: null };
   }
 
-  const checkOperator = await getPumpOperatorByid(id)
-  
+  const checkOperator = await getPumpOperatorByid(id);
+
   if (!checkOperator.pumpOperator) {
-      return checkOperator
-    }
-    
-const prisma = new PrismaClient();
+    return checkOperator;
+  }
+
+  if (!balance) {
+    balance = undefined;
+  }
+
+  const prisma = new PrismaClient();
   const operator = await prisma.pumpOperators
     .update({
       where: { id },
@@ -94,58 +98,68 @@ const prisma = new PrismaClient();
 };
 
 export const getPumpOperatorByid = async (id: number) => {
-    if (!id) {
-        return {status: 500, message: 'id is invalid', pumpOperator: null}
-    }
+  if (!id) {
+    return { status: 500, message: "id is invalid", pumpOperator: null };
+  }
 
-    const prisma = new PrismaClient()
-    const operator = await prisma.pumpOperators.findUnique({
-        where: {id}
-    }).catch((e: any) => {
-        throw e
-    }).finally(async() => {
-        await prisma.$disconnect()
+  const prisma = new PrismaClient();
+  const operator = await prisma.pumpOperators
+    .findUnique({
+      where: { id },
     })
+    .catch((e: any) => {
+      throw e;
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
 
-    if (operator) {
-        return {status: 200, message: 'operator found', pumpOperator: {
-            id: Number(operator.id),
-            name: operator.name,
-            address: operator.address,
-            phone: operator.phone,
-            nic: operator.nic,
-            balance: operator.balance
-        }}
-    } else {
-        return {status: 404, message: 'operator not found', pumpOperator: null}
-    }
-}
+  if (operator) {
+    return {
+      status: 200,
+      message: "operator found",
+      pumpOperator: {
+        id: Number(operator.id),
+        name: operator.name,
+        address: operator.address,
+        phone: operator.phone,
+        nic: operator.nic,
+        balance: operator.balance,
+      },
+    };
+  } else {
+    return { status: 404, message: "operator not found", pumpOperator: null };
+  }
+};
 
 export const deleteOperator = async (id: number) => {
-    if (!id) {
-        return {status: 500, message: 'id is invalid', pumpOperator: null} 
-    }
+  if (!id) {
+    return { status: 500, message: "id is invalid", pumpOperator: null };
+  }
 
-    const checkOperator = await getPumpOperatorByid(id)
-    
-    if(!checkOperator.pumpOperator) {
-        return checkOperator
-    }
-    
-    const prisma = new PrismaClient()
-    const operator = await prisma.pumpOperators.delete({
-        where: {id}
-    }).catch((e:any) => {
-        throw e
-    }).finally(async() => {
-        await prisma.$disconnect()
+  const checkOperator = await getPumpOperatorByid(id);
+
+  if (!checkOperator.pumpOperator) {
+    return checkOperator;
+  }
+
+  const prisma = new PrismaClient();
+  const operator = await prisma.pumpOperators
+    .delete({
+      where: { id },
     })
+    .catch((e: any) => {
+      throw e;
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
 
-    return {
-        status: 204,
-        message: 'operator deleted',
-        pumpOperator: {
-          id: Number(operator.id) 
-        }        
-    }
-}
+  return {
+    status: 204,
+    message: "operator deleted",
+    pumpOperator: {
+      id: Number(operator.id),
+    },
+  };
+};

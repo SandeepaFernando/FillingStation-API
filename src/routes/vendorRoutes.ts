@@ -13,7 +13,7 @@ route.post("/create", async (req, res, next) => {
   const email: string = req.body.email;
   const phone: string = req.body.phone;
   // TODO: add user id from jwt (req.user)
-  const user: number = 3;
+  const user: number = 1;
 
   const request = await createVendor(vendorName, user, address, phone, email);
   return res.status(request.status).json(request);
