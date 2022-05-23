@@ -20,7 +20,7 @@ export const createPumpMachine = async (
   }
 
   const prisma = new PrismaClient();
-  const pumpMachine = await prisma.pumpMachine
+  const pumpMachine = await prisma.pumpMachines
     .create({
       data: {
         pumpName,
@@ -65,7 +65,7 @@ export const getPumpMachineById = async (id: number) => {
   }
 
   const prisma = new PrismaClient();
-  const pumpMachine = await prisma.pumpMachine
+  const pumpMachine = await prisma.pumpMachines
     .findUnique({
       where: { id },
       include: { tank: true, pumpOperator: true },
@@ -117,12 +117,12 @@ export const updatePumpMachine = async (
   }
 
   const checkPumpMachine = await getPumpMachineById(id);
-  if (!checkPumpMachine) {
+  if (!checkPumpMachine.pumpMachine) {
     return checkPumpMachine;
   }
 
   const prisma = new PrismaClient();
-  const pumpMachine = await prisma.pumpMachine
+  const pumpMachine = await prisma.pumpMachines
     .update({
       where: { id },
       data: {
@@ -170,12 +170,12 @@ export const deletePumpMachine = async (id: number) => {
   }
 
   const checkPumpMachine = await getPumpMachineById(id);
-  if (!checkPumpMachine) {
+  if (!checkPumpMachine.pumpMachine) {
     return checkPumpMachine;
   }
 
   const prisma = new PrismaClient();
-  const pumpMachine = await prisma.pumpMachine
+  const pumpMachine = await prisma.pumpMachines
     .delete({ where: { id } })
     .catch((e: any) => {
       throw e;
