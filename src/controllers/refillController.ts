@@ -52,7 +52,7 @@ export const updateRefill = async (
   }
 
   const checkRefill = await getRefillById(id);
-  if (!checkRefill) {
+  if (!checkRefill.refill) {
     return checkRefill;
   }
 
@@ -132,7 +132,7 @@ export const deleteRefill = async (id: number) => {
   }
 
   const checkRefill = await getRefillById(id);
-  if (!checkRefill) {
+  if (!checkRefill.refill) {
     return checkRefill;
   }
 
