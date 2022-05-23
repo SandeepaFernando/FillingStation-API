@@ -11,7 +11,8 @@ const customerRoutes = require("./routes/costomerRoutes");
 const itemRoutes = require("./routes/itemRoutes");
 const tankRoutes = require("./routes/tankRoutes");
 const refillRoutes = require("./routes/refillRoutes");
-const pumpMachineRoutes = require('./routes/pumpMachineRoutes')
+const pumpMachineRoutes = require("./routes/pumpMachineRoutes");
+const pumpOperatorRoutes = require("./routes/pumpOperatorRoute");
 
 app.use(cors());
 app.use(express.json());
@@ -24,7 +25,8 @@ app.use("/api/customer", customerRoutes);
 app.use("/api/item", itemRoutes);
 app.use("/api/tank", tankRoutes);
 app.use("/api/refill", refillRoutes);
-app.use('/api/pumpMachine', pumpMachineRoutes)
+app.use("/api/pump-machine", pumpMachineRoutes);
+app.use("/api/pump-operator", pumpOperatorRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
