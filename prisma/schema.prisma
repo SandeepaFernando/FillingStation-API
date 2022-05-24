@@ -66,6 +66,7 @@ model pumpOperators {
   updatedAt          DateTime             @default(now())
   pumpMachine        pumpMachines[]
   pumpMachineDetails pumpMachineDetails[]
+  tankDetails        tankDetails[]
 }
 
 model pumpMachines {
@@ -126,16 +127,18 @@ model tanks {
   usersId     BigInt
   refills     refills[]
   pumpMachine pumpMachines[]
+  tankDetails tankDetails[]
 }
 
 model refills {
-  id           BigInt   @id @default(autoincrement())
-  refillAmount Decimal  @default(0)
-  date         DateTime @default(now())
-  cost         Decimal  @default(0)
-  tank         tanks    @relation(fields: [tanksId], references: [id])
+  id           BigInt        @id @default(autoincrement())
+  refillAmount Decimal       @default(0)
+  date         DateTime      @default(now())
+  cost         Decimal       @default(0)
+  tank         tanks         @relation(fields: [tanksId], references: [id])
   tanksId      BigInt
-  updatedAt    DateTime @default(now())
+  updatedAt    DateTime      @default(now())
+  tankDetails  tankDetails[]
 }
 
 model pumpMachineDetails {
@@ -148,4 +151,21 @@ model pumpMachineDetails {
   updatedAt       DateTime      @default(now())
   pumpOperatorsId BigInt
   pumpMachinesId  BigInt
+}
+
+model tankDetails {
+  id              BigInt        @id @default(autoincrement())
+  tank            tanks         @relation(fields: [tanksId], references: [id])
+  startMeter      Decimal       @default(0)
+  endMeter        Decimal       @default(0)
+  sell            Decimal       @default(0)
+  refill          refills?      @relation(fields: [refillsId], references: [id])
+  wastage         Decimal       @default(0)
+  pumpOperator    pumpOperators @relation(fields: [pumpOperatorsId], references: [id])
+  cost            Decimal       @default(0)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @default(now())
+  tanksId         BigInt
+  pumpOperatorsId BigInt
+  refillsId       BigInt?
 }
